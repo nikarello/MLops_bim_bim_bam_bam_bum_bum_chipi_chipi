@@ -43,12 +43,12 @@
 ### Примеры запросов (◕‿◕)
 #### Обучение модели
 ```bash
-curl -X POST "http://127.0.0.1:8000/train" -H "Content-Type: application/json" -d "{\"model_type\": \"decision_tree\", \"parameters\": {\"max_depth\": 5}}"
+curl -X POST "http://127.0.0.1:8000/train" -H "Content-Type: application/json" -d "{\"type_of_model\": \"decision_tree\", \"parameters\": {\"max_depth\": 5}}"
 ```
 
 #### Предсказание
 ```bash
-curl -X POST "http://127.0.0.1:8000/predict" -H "Content-Type: application/json" -d "{\"model_id\": \"decision_tree_1\", \"data\": [0.5, -1.2, 3.3, 0.1]}"
+curl -X POST "http://127.0.0.1:8000/predict" -H "Content-Type: application/json" -d "{\"id_of_model\": \"decision_tree_1\", \"data\": [0.5, -1.2, 3.3, 0.1]}"
 ```
 #### Спасибо (ｏ・_・)ノ”(ノ_<、) 
 
