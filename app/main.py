@@ -6,6 +6,7 @@ import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.datasets import make_classification
+import os
 
 app = FastAPI()
 
@@ -69,7 +70,7 @@ def predict_model(request: PredictRequest):
 def delete_model(id_of_model: str):
     if id_of_model in trained_models:
         del trained_models[id_of_model]
-        joblib.os.remove(f"{id_of_model}.joblib")
+        os.remove(f"{id_of_model}.joblib")
         logger.info(f"Model {id_of_model} deleted.")
         return {"message": f"Model {id_of_model} deleted successfully."}
     raise HTTPException(status_code=404, detail="Model not found")
@@ -77,3 +78,7 @@ def delete_model(id_of_model: str):
 @app.get("/status")
 def service_status():
     return {"status": "Service is running"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
