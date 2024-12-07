@@ -1,12 +1,14 @@
 [core]
     remote = storage
-['remote "minio"']
+
+[remote "minio"]
     url = s3://mlops-data
-    endpointurl = http://localhost:9000
-    access_key_id = minioadmin
-    secret_access_key = minioadmin
-['remote "storage"']
+    endpointurl = http://minio:9000
+    access_key_id = admin
+    secret_access_key = password
+
+[remote "storage"]
     url = s3://mlops-data
-    endpointurl = http://localhost:9000
+    endpointurl = http://minio:9000
     access_key_id = admin
     secret_access_key = password

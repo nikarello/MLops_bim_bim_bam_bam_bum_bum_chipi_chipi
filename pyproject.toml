@@ -1,15 +1,31 @@
 [tool.poetry]
-name = "package"
-version = "0.1"
-description = ""
+name = "mlops_project"
+version = "0.1.0"
+description = "A project for ML Ops pipeline with FastAPI and MinIO."
 authors = ["nikarello <nikmih233@gmail.com>"]
+license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.115.4"
 uvicorn = "^0.32.0"
+numpy = "^1.26.4"
+pandas = "^2.2.3"
+scikit-learn = "^1.5.2"
+matplotlib = "^3.9.2"
+seaborn = "^0.12.2"
+joblib = "^1.4.2"
+dvc = "^3.58.0"
+boto3 = "^1.35.36"
+s3fs = "^2024.9.0"
+minio = "^7.1.11"
 
+[tool.poetry.dev-dependencies]
+pytest = "^7.4.0"
+mypy = "^1.5.1"
+black = "^23.9.1"
+isort = "^5.12.0"
 
 [build-system]
 requires = ["poetry-core"]
