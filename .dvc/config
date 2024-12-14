@@ -1,14 +1,17 @@
 [core]
-    remote = storage
-
-[remote "minio"]
+    remote = myremote
+['remote "minio"']
     url = s3://mlops-data
     endpointurl = http://minio:9000
     access_key_id = admin
     secret_access_key = password
-
-[remote "storage"]
+['remote "storage"']
     url = s3://mlops-data
     endpointurl = http://minio:9000
+    access_key_id = admin
+    secret_access_key = password
+['remote "myremote"']
+    url = s3://dvc-bucket
+    endpointurl = http://localhost:9000
     access_key_id = admin
     secret_access_key = password
