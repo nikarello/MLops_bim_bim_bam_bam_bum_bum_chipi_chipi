@@ -21,8 +21,13 @@ jobs:
         env:
           MINIO_ROOT_USER: minioadmin
           MINIO_ROOT_PASSWORD: minioadmin
-        options: > 
-          --server /data --console-address ":9001"
+        options: >
+          --entrypoint ""
+        args:
+          - server
+          - /data
+          - --console-address
+          - ":9001"
 
     steps:
     - name: Checkout code
@@ -68,8 +73,13 @@ jobs:
         env:
           MINIO_ROOT_USER: minioadmin
           MINIO_ROOT_PASSWORD: minioadmin
-        options: > 
-          --server /data --console-address ":9001"
+        options: >
+          --entrypoint ""
+        args:
+          - server
+          - /data
+          - --console-address
+          - ":9001"
 
     steps:
     - name: Checkout code
@@ -85,12 +95,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install dvc s3fs
 
-    - name: Set up environment
-      run: |
-        echo "S3_ENDPOINT_URL=http://localhost:9000" >> $GITHUB_ENV
-        echo "AWS_ACCESS_KEY_ID=minioadmin" >> $GITHUB_ENV
-        echo "AWS_SECRET_ACCESS_KEY=minioadmin" >> $GITHUB_ENV
-
     - name: Configure DVC remote
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -100,6 +104,4 @@ jobs:
         dvc remote modify minio_remote access_key_id $AWS_ACCESS_KEY_ID
         dvc remote modify minio_remote secret_access_key $AWS_SECRET_ACCESS_KEY
         dvc remote modify minio_remote endpointurl $S3_ENDPOINT_URL
-
-    - name: Push DVC data
-      run: dvc push
+        dvc push
