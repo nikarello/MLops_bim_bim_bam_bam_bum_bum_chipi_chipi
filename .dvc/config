@@ -1,5 +1,5 @@
 [core]
-    remote = myremote
+    remote = minio_remote
 ['remote "minio"']
     url = s3://mlops-data
     endpointurl = http://minio:9000
@@ -15,3 +15,8 @@
     endpointurl = http://localhost:9000
     access_key_id = admin
     secret_access_key = password
+['remote "minio_remote"']
+    url = s3://test-bucket
+    access_key_id = minioadmin
+    secret_access_key = minioadmin
+    endpointurl = http://localhost:9000

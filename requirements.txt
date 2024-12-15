@@ -16,4 +16,4 @@ dvc-s3>=2.20.1
 moto==4.1.11
 pytest==7.4.2
 pytest-mock==3.11.1
-
+python-dotenv
