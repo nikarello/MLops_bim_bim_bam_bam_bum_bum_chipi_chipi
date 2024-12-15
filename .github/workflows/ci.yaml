@@ -21,6 +21,9 @@ jobs:
       with:
         python-version: 3.11
 
+    - name: Remove existing MinIO container
+      run: docker rm -f minio || true
+
     - name: Start MinIO
       run: |
         docker run -d --name minio \
@@ -32,11 +35,18 @@ jobs:
     - name: Wait for MinIO to start
       run: sleep 10
 
+    - name: Check MinIO readiness
+      run: |
+        for i in {1..10}; do
+          curl -s http://localhost:9000/minio/health/ready && break || sleep 2
+        done
+
     - name: Create bucket in MinIO
       run: |
         pip install boto3
         python - <<EOF
         import boto3
+        from botocore.exceptions import ClientError
 
         s3 = boto3.client(
             's3',
@@ -44,8 +54,12 @@ jobs:
             aws_access_key_id='minioadmin',
             aws_secret_access_key='minioadmin'
         )
-        s3.create_bucket(Bucket='test-bucket')
-        print("Bucket 'test-bucket' created.")
+        try:
+            s3.head_bucket(Bucket='test-bucket')
+            print("Bucket 'test-bucket' already exists.")
+        except ClientError:
+            s3.create_bucket(Bucket='test-bucket')
+            print("Bucket 'test-bucket' created.")
         EOF
 
     - name: Set up environment
@@ -57,7 +71,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements.txt dvc s3fs boto3
+
+    - name: Reproduce DVC pipeline
+      run: dvc repro
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        S3_ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
 
     - name: Pull DVC data
       run: dvc pull
@@ -77,6 +98,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Remove existing MinIO container
+      run: docker rm -f minio || true
+
     - name: Start MinIO
       run: |
         docker run -d --name minio \
@@ -88,11 +112,18 @@ jobs:
     - name: Wait for MinIO to start
       run: sleep 10
 
+    - name: Check MinIO readiness
+      run: |
+        for i in {1..10}; do
+          curl -s http://localhost:9000/minio/health/ready && break || sleep 2
+        done
+
     - name: Create bucket in MinIO
       run: |
         pip install boto3
         python - <<EOF
         import boto3
+        from botocore.exceptions import ClientError
 
         s3 = boto3.client(
             's3',
@@ -100,16 +131,26 @@ jobs:
             aws_access_key_id='minioadmin',
             aws_secret_access_key='minioadmin'
         )
-        s3.create_bucket(Bucket='test-bucket')
-        print("Bucket 'test-bucket' created.")
+        try:
+            s3.head_bucket(Bucket='test-bucket')
+            print("Bucket 'test-bucket' already exists.")
+        except ClientError:
+            s3.create_bucket(Bucket='test-bucket')
+            print("Bucket 'test-bucket' created.")
         EOF
 
     - name: Install DVC and dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install dvc s3fs
+        pip install dvc s3fs boto3
 
-    - name: Configure DVC remote
+    - name: Add and commit DVC outputs
+      run: |
+        dvc add data/test_data.txt models/model.pkl
+        git add data/test_data.txt.dvc models/model.pkl.dvc
+        git commit -m "Track DVC outputs"
+
+    - name: Configure DVC remote and push
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
