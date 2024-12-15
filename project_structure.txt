@@ -1,58 +1,25 @@
 Folder PATH listing for volume Windows-SSD
 Volume serial number is F8DE-81E7
-C:.
-¦   .dvcignore
-¦   decision_tree_1.joblib
-¦   Dockerfile
-¦   downloaded_test_file.txt
-¦   main.py
-¦   poetry.lock
-¦   project_structure.txt
-¦   pyproject.toml
-¦   README.txt
-¦   requirements.txt
-¦   test_upload.txt
-¦   train_service.proto.txt
-¦   
+C:\MLOPS_BIM_BIM_BAM_BAM_BUM_BUM_CHIPI_CHIPI
 +---.dvc
-¦   ¦   .gitignore
-¦   ¦   config
-¦   ¦   
 ¦   +---cache
 ¦   ¦   +---files
-¦   ¦       +---md5
-¦   ¦           +---00
-¦   ¦                   a320932e2ea90e9196ea9ecf25219c
-¦   ¦                   
+¦   ¦   ¦   +---md5
+¦   ¦   ¦       +---08
+¦   ¦   ¦       +---3b
+¦   ¦   ¦       +---d3
+¦   ¦   +---runs
+¦   ¦       +---e3
+¦   ¦           +---e3ee4c5a6002f79161e4088dcd8b3894b0eaf65d7f9ff977533713c6caf0b408
 ¦   +---tmp
-¦           btime
-¦           lock
-¦           rwlock
-¦           rwlock.lock
-¦           
++---.pytest_cache
+¦   +---v
+¦       +---cache
 +---app
-¦   ¦   config.py
-¦   ¦   dashboard.py
-¦   ¦   main.py
-¦   ¦   minio_client.py
-¦   ¦   test_minio_client.py
-¦   ¦   test_upload.txt
-¦   ¦   train_service.proto
-¦   ¦   train_service.py
-¦   ¦   train_service_pb2.py
-¦   ¦   train_service_pb2_grpc.py
-¦   ¦   __init__.py
-¦   ¦   
-¦   +---models
 ¦   +---__pycache__
-¦           config.cpython-311.pyc
-¦           main.cpython-311.pyc
-¦           minio_client.cpython-311.pyc
-¦           train_service_pb2.cpython-311.pyc
-¦           train_service_pb2_grpc.cpython-311.pyc
-¦           
 +---data
-        .gitignore
-        test_data.txt
-        test_data.txt.dvc
-        
++---models
++---src
+¦   +---__pycache__
++---tests
+    +---__pycache__
